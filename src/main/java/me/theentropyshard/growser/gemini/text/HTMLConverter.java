@@ -61,7 +61,7 @@ public class HTMLConverter {
                         html.append(HTMLConverter.escapeHTML(link.getLink()));
                     }
 
-                    html.append("</a>");
+                    html.append("</a><br>");
 
                     break;
                 case LIST_ITEM:
