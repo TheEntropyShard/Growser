@@ -65,7 +65,7 @@ public class Tab extends JPanel {
 
         this.add(this.addressBar, BorderLayout.NORTH);
 
-        this.geminiPanel = new GeminiPanel();
+        this.geminiPanel = new GeminiPanel(tabbedPane);
 
         SwingUtils.addKeystroke(
                 KeyStroke.getKeyStroke(KeyEvent.VK_HOME, 0), this.geminiPanel.getTextPane(),

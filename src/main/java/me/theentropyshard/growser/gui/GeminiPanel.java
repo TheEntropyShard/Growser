@@ -19,16 +19,22 @@
 package me.theentropyshard.growser.gui;
 
 import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;
+import java.net.URL;
 
-public class GeminiPanel extends JPanel {
+public class GeminiPanel extends JPanel implements HyperlinkListener {
     private final JTextPane textPane;
     private final JScrollPane scrollPane;
+    private final JTabbedPane tabbedPane;
 
-    public GeminiPanel() {
+    public GeminiPanel(JTabbedPane tabbedPane) {
         super(new BorderLayout());
+
+        this.tabbedPane = tabbedPane;
 
         this.textPane = new JTextPane() {
             @Override
@@ -45,6 +51,7 @@ public class GeminiPanel extends JPanel {
         this.textPane.setEditorKit(new HTMLEditorKit());
         this.textPane.setContentType("text/html");
         this.textPane.setEditable(false);
+        this.textPane.addHyperlinkListener(this);
 
         this.scrollPane = new JScrollPane(
                 this.textPane,
@@ -54,6 +61,16 @@ public class GeminiPanel extends JPanel {
         this.scrollPane.setBorder(null);
 
         this.add(this.scrollPane, BorderLayout.CENTER);
+    }
+
+    @Override
+    public void hyperlinkUpdate(HyperlinkEvent e) {
+        HyperlinkEvent.EventType eventType = e.getEventType();
+
+        if (eventType == HyperlinkEvent.EventType.ACTIVATED) {
+            URL url = e.getURL();
+            this.tabbedPane.addTab("Title", new Tab(url.toString(), this.tabbedPane));
+        }
     }
 
     public void scrollToTop() {

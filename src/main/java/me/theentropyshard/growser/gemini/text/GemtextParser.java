@@ -74,11 +74,20 @@ public class GemtextParser {
                 elements.add(new GemtextBlockquoteElement(line.substring(2)));
             } else if (line.startsWith(GemtextParser.LINK_START)) {
                 line = line.substring(2).trim();
-                int spaceIndex = line.indexOf(' ');
-                if (spaceIndex != -1) {
-                    elements.add(new GemtextLinkElement(line.substring(0, spaceIndex), line.substring(spaceIndex)));
-                } else {
+                int spaceIndex = -1;
+
+                for (char c : line.toCharArray()) {
+                    if (Character.isWhitespace(c)) {
+                        spaceIndex = line.indexOf(c);
+
+                        break;
+                    }
+                }
+
+                if (spaceIndex == -1) {
                     elements.add(new GemtextLinkElement(line, null));
+                } else {
+                    elements.add(new GemtextLinkElement(line.substring(0, spaceIndex), line.substring(spaceIndex)));
                 }
             } else {
                 elements.add(new GemtextParagraphElement(line));
