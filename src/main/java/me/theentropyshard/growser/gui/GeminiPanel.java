@@ -31,6 +31,8 @@ public class GeminiPanel extends JPanel implements HyperlinkListener {
     private final JScrollPane scrollPane;
     private final JTabbedPane tabbedPane;
 
+    private String baseURL;
+
     public GeminiPanel(JTabbedPane tabbedPane) {
         super(new BorderLayout());
 
@@ -69,8 +71,43 @@ public class GeminiPanel extends JPanel implements HyperlinkListener {
 
         if (eventType == HyperlinkEvent.EventType.ACTIVATED) {
             URL url = e.getURL();
-            this.tabbedPane.addTab("Title", new Tab(url.toString(), this.tabbedPane));
+
+            String sUrl;
+
+            if (url == null) {
+                String desc = e.getDescription();
+
+                if ((this.baseURL.endsWith("/") && !desc.startsWith("/")) || (!this.baseURL.endsWith("/") && desc.startsWith("/"))) {
+                    sUrl = this.baseURL + desc;
+                } else if (this.baseURL.endsWith("/") && desc.startsWith("/")) {
+                    sUrl = this.baseURL + desc.substring(1);
+                } else if (!this.baseURL.endsWith("/") && !desc.startsWith("/")) {
+                    sUrl = this.baseURL + "/" + desc;
+                } else {
+                    System.out.println("WARN: Unknown error. baseUrl: " + this.baseURL + ", desc: " + desc);
+
+                    return;
+                }
+            } else {
+                sUrl = url.toString();
+
+                if (sUrl.startsWith("http://") || sUrl.startsWith("https://")) {
+                    System.out.println("WARN: http[s] scheme is not supported");
+
+                    return;
+                }
+            }
+
+            this.tabbedPane.addTab("Title", new Tab(sUrl, this.tabbedPane));
         }
+    }
+
+    public String getBaseURL() {
+        return this.baseURL;
+    }
+
+    public void setBaseURL(String baseURL) {
+        this.baseURL = baseURL;
     }
 
     public void scrollToTop() {

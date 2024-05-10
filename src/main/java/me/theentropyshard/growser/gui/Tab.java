@@ -29,6 +29,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.net.URI;
 import java.util.concurrent.ExecutionException;
 
 public class Tab extends JPanel {
@@ -124,6 +125,9 @@ public class Tab extends JPanel {
                 int tabIndex = Tab.this.tabbedPane.indexOfComponent(Tab.this);
                 Tab.this.tabbedPane.setTitleAt(tabIndex, data[0]);
 
+                URI uri = URI.create(url);
+                String baseUrl = uri.getScheme() + "://" + uri.getHost();
+                Tab.this.geminiPanel.setBaseURL(baseUrl);
                 Tab.this.geminiPanel.setHTML(data[1]);
                 Tab.this.geminiPanel.scrollToTop();
             }
