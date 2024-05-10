@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+def theMainClass = 'me.theentropyshard.growser.Main'
+def theVersion = '0.0.1'
+
+group = 'me.theentropyshard'
+version = theVersion
+
+application {
+    mainClass = theMainClass
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': theMainClass,
+                'Implementation-Version': theVersion
+        )
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    flatlaf = '3.4.1'
+    miglayout = '5.3'
+}
+
+dependencies {
+    implementation "com.formdev:flatlaf:$flatlaf"
+    implementation "com.miglayout:miglayout-swing:$miglayout"
+}
