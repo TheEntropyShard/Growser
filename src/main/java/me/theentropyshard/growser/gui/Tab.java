@@ -52,6 +52,7 @@ public class Tab extends JPanel {
         this.tabbedPane = tabbedPane;
 
         this.addressBar = new AddressBar();
+        this.addressBar.setUrl(url);
 
         SwingUtils.addKeystroke(
                 KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), this.addressBar.getAddressField(),
