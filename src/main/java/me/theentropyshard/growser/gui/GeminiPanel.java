@@ -18,12 +18,15 @@
 
 package me.theentropyshard.growser.gui;
 
+import com.formdev.flatlaf.ui.FlatScrollPaneUI;
+
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;
+import java.awt.event.MouseWheelListener;
 import java.net.URL;
 
 public class GeminiPanel extends JPanel implements HyperlinkListener {
@@ -61,6 +64,16 @@ public class GeminiPanel extends JPanel implements HyperlinkListener {
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
         );
         this.scrollPane.setBorder(null);
+        this.scrollPane.setUI(new FlatScrollPaneUI() {
+            @Override
+            protected MouseWheelListener createMouseWheelListener() {
+                if (this.isSmoothScrollingEnabled()) {
+                    return new SmoothScrollMouseWheelListener(this.scrollpane.getVerticalScrollBar());
+                } else {
+                    return super.createMouseWheelListener();
+                }
+            }
+        });
 
         this.add(this.scrollPane, BorderLayout.CENTER);
     }
