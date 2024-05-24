@@ -104,12 +104,12 @@ public class GeminiPanel extends JPanel implements HyperlinkListener {
                 }
             } else {
                 sUrl = url.toString();
+            }
 
-                if (sUrl.startsWith("http://") || sUrl.startsWith("https://")) {
-                    System.out.println("WARN: http[s] scheme is not supported");
+            if (sUrl.startsWith("http://") || sUrl.startsWith("https://")) {
+                System.out.println("WARN: http[s] scheme is not supported");
 
-                    return;
-                }
+                return;
             }
 
             this.tabbedPane.addTab("Title", new Tab(sUrl, this.tabbedPane));
