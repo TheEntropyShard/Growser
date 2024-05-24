@@ -53,6 +53,7 @@ public class GeminiPanel extends JPanel implements HyperlinkListener {
         DefaultCaret caret = (DefaultCaret) this.textPane.getCaret();
         caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
 
+        this.textPane.setFont(this.textPane.getFont().deriveFont(14.0f));
         this.textPane.setEditorKit(new HTMLEditorKit());
         this.textPane.setContentType("text/html");
         this.textPane.setEditable(false);
