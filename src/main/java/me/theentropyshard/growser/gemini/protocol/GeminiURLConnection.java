@@ -36,11 +36,11 @@ import java.util.Collections;
 
 public class GeminiURLConnection extends URLConnection {
     public static final String CRLF = "\r\n";
-    private SSLSocket socket = null;
-    private String contentType = null;
-    private InputStream inputStream = null;
-    private byte[] content = null;
-    private String meta = null;
+    private SSLSocket socket;
+    private String contentType;
+    private InputStream inputStream;
+    private byte[] content;
+    private String meta;
 
     public GeminiURLConnection(URL url) {
         super(url);
@@ -76,9 +76,7 @@ public class GeminiURLConnection extends URLConnection {
             this.initConnection();
             this.sendRequest();
             this.readHeader();
-        } catch (NoSuchAlgorithmException e) {
-            throw new IOException(e);
-        } catch (KeyManagementException e) {
+        } catch (NoSuchAlgorithmException | KeyManagementException e) {
             throw new IOException(e);
         }
     }
