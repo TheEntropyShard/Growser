@@ -24,12 +24,10 @@ import me.theentropyshard.growser.gemini.protocol.exception.RetryWithInputExcept
 import me.theentropyshard.growser.utils.StreamUtils;
 
 import javax.net.ssl.*;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -125,15 +123,16 @@ public class GeminiURLConnection extends URLConnection {
     }
 
     private void sendRequest() throws IOException {
-        OutputStream outputStream = this.socket.getOutputStream();
-        PrintStream printStream = new PrintStream(outputStream);
         String url = this.getURL().toString();
         if (!url.endsWith("/")) {
             url += "/";
         }
-        printStream.print(url);
-        printStream.print(GeminiURLConnection.CRLF);
-        printStream.flush();
+
+        OutputStream outputStream = this.socket.getOutputStream();
+
+        byte[] request = (url + GeminiURLConnection.CRLF).getBytes(StandardCharsets.UTF_8);
+        outputStream.write(request);
+        outputStream.flush();
     }
 
     private void readHeader() throws IOException {
