@@ -33,13 +33,15 @@ public class GeminiPanel extends JPanel implements HyperlinkListener {
     private final JTextPane textPane;
     private final JScrollPane scrollPane;
     private final JTabbedPane tabbedPane;
+    private final AddressBar addressBar;
 
     private String baseURL;
 
-    public GeminiPanel(JTabbedPane tabbedPane) {
+    public GeminiPanel(JTabbedPane tabbedPane, AddressBar addressBar) {
         super(new BorderLayout());
 
         this.tabbedPane = tabbedPane;
+        this.addressBar = addressBar;
 
         this.textPane = new JTextPane() {
             @Override
@@ -91,14 +93,16 @@ public class GeminiPanel extends JPanel implements HyperlinkListener {
             if (url == null) {
                 String desc = e.getDescription();
 
-                if ((this.baseURL.endsWith("/") && !desc.startsWith("/")) || (!this.baseURL.endsWith("/") && desc.startsWith("/"))) {
-                    sUrl = this.baseURL + desc;
-                } else if (this.baseURL.endsWith("/") && desc.startsWith("/")) {
-                    sUrl = this.baseURL + desc.substring(1);
-                } else if (!this.baseURL.endsWith("/") && !desc.startsWith("/")) {
-                    sUrl = this.baseURL + "/" + desc;
+                String baseUrl = this.addressBar.getUrl();
+
+                if ((baseUrl.endsWith("/") && !desc.startsWith("/")) || (!baseUrl.endsWith("/") && desc.startsWith("/"))) {
+                    sUrl = baseUrl + desc;
+                } else if (baseUrl.endsWith("/") && desc.startsWith("/")) {
+                    sUrl = baseUrl + desc.substring(1);
+                } else if (!baseUrl.endsWith("/") && !desc.startsWith("/")) {
+                    sUrl = baseUrl + "/" + desc;
                 } else {
-                    System.out.println("WARN: Unknown error. baseUrl: " + this.baseURL + ", desc: " + desc);
+                    System.out.println("WARN: Unknown error. baseUrl: " + baseUrl + ", desc: " + desc);
 
                     return;
                 }
@@ -114,14 +118,6 @@ public class GeminiPanel extends JPanel implements HyperlinkListener {
 
             this.tabbedPane.addTab("Title", new Tab(sUrl, this.tabbedPane));
         }
-    }
-
-    public String getBaseURL() {
-        return this.baseURL;
-    }
-
-    public void setBaseURL(String baseURL) {
-        this.baseURL = baseURL;
     }
 
     public void scrollToTop() {

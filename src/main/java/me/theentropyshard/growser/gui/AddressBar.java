@@ -59,6 +59,10 @@ public class AddressBar extends JPanel {
         this.add(this.moreButton);
     }
 
+    public void getUrl() {
+        return this.addressField.getText();
+    }
+
     public void setUrl(String url) {
         this.addressField.setText(url);
     }

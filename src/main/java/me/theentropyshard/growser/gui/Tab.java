@@ -60,14 +60,14 @@ public class Tab extends JPanel {
                 new AbstractAction() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        Tab.this.loadURL(Tab.this.addressBar.getAddressField().getText());
+                        Tab.this.loadURL(Tab.this.addressBar.getUrl());
                     }
                 }
         );
 
         this.add(this.addressBar, BorderLayout.NORTH);
 
-        this.geminiPanel = new GeminiPanel(tabbedPane);
+        this.geminiPanel = new GeminiPanel(tabbedPane, this.addressBar);
 
         SwingUtils.addKeystroke(
                 KeyStroke.getKeyStroke(KeyEvent.VK_HOME, 0), this.geminiPanel.getTextPane(),
@@ -125,10 +125,6 @@ public class Tab extends JPanel {
 
                 int tabIndex = Tab.this.tabbedPane.indexOfComponent(Tab.this);
                 Tab.this.tabbedPane.setTitleAt(tabIndex, data[0]);
-
-                URI uri = URI.create(url);
-                String baseUrl = uri.getScheme() + "://" + uri.getHost();
-                Tab.this.geminiPanel.setBaseURL(baseUrl);
                 Tab.this.geminiPanel.setHTML(data[1]);
                 Tab.this.geminiPanel.scrollToTop();
             }
