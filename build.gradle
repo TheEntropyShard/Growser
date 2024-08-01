@@ -29,9 +29,17 @@ repositories {
 ext {
     flatlaf = '3.4.1'
     miglayout = '5.3'
+    junit = '5.7.2'
 }
 
 dependencies {
     implementation "com.formdev:flatlaf:$flatlaf"
     implementation "com.miglayout:miglayout-swing:$miglayout"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:$junit"
+}
+
+test {
+    useJUnitPlatform()
 }
