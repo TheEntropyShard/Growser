@@ -65,7 +65,12 @@ public class GeminiPanel extends JPanel implements HyperlinkListener {
                 this.textPane,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
-        );
+        ) {
+            @Override
+            protected void paintBorder(Graphics g) {
+
+            }
+        };
         this.scrollPane.setBorder(null);
         this.scrollPane.setUI(new FlatScrollPaneUI() {
             @Override
