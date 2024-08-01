@@ -19,6 +19,7 @@
 package me.theentropyshard.growser.gui;
 
 import com.formdev.flatlaf.ui.FlatScrollPaneUI;
+import me.theentropyshard.growser.gui.addressbar.AddressBar;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;

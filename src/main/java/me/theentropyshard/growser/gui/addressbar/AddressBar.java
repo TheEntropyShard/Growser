@@ -16,14 +16,11 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.growser.gui;
+package me.theentropyshard.growser.gui.addressbar;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import me.theentropyshard.growser.utils.swing.SwingUtils;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -44,16 +41,13 @@ public class AddressBar extends JPanel {
         gbc.weightx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        this.backButton = new JButton(SwingUtils.getIcon("/assets/arrow_back_x24.png"));
-        this.backButton.putClientProperty(FlatClientProperties.BUTTON_TYPE, FlatClientProperties.BUTTON_TYPE_TOOLBAR_BUTTON);
+        this.backButton = new AddressBarButton("/assets/arrow_back_x24.png");
         this.add(this.backButton);
 
-        this.forwardButton = new JButton(SwingUtils.getIcon("/assets/arrow_forward_x24.png"));
-        this.forwardButton.putClientProperty(FlatClientProperties.BUTTON_TYPE, FlatClientProperties.BUTTON_TYPE_TOOLBAR_BUTTON);
+        this.forwardButton = new AddressBarButton("/assets/arrow_forward_x24.png");
         this.add(this.forwardButton);
 
-        this.refreshButton = new JButton(SwingUtils.getIcon("/assets/refresh_x24.png"));
-        this.refreshButton.putClientProperty(FlatClientProperties.BUTTON_TYPE, FlatClientProperties.BUTTON_TYPE_TOOLBAR_BUTTON);
+        this.refreshButton = new AddressBarButton("/assets/refresh_x24.png");
         this.add(this.refreshButton);
 
         this.addressField = new JTextField();
@@ -71,8 +65,7 @@ public class AddressBar extends JPanel {
         this.addressField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter URL");
         this.add(this.addressField, gbc);
 
-        this.moreButton = new JButton(SwingUtils.getIcon("/assets/more_vert_x24.png"));
-        this.moreButton.putClientProperty(FlatClientProperties.BUTTON_TYPE, FlatClientProperties.BUTTON_TYPE_TOOLBAR_BUTTON);
+        this.moreButton = new AddressBarButton("/assets/more_vert_x24.png");
         this.add(this.moreButton);
     }
 

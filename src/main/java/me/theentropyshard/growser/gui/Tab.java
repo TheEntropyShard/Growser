@@ -18,6 +18,7 @@
 
 package me.theentropyshard.growser.gui;
 
+import me.theentropyshard.growser.gui.addressbar.AddressBar;
 import me.theentropyshard.growser.utils.swing.SwingUtils;
 
 import javax.swing.*;
