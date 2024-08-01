@@ -75,5 +75,6 @@ public class LoadURLWorker extends SwingWorker<String[], Void> {
         this.tab.getTabbedPane().setTitleAt(tabIndex, data[0]);
         this.tab.getGeminiPanel().setHTML(data[1]);
         this.tab.getGeminiPanel().scrollToTop();
+        this.tab.getGeminiPanel().requestFocus();
     }
 }
