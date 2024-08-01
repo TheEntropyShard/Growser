@@ -22,6 +22,8 @@ import com.formdev.flatlaf.FlatClientProperties;
 import me.theentropyshard.growser.utils.swing.SwingUtils;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -35,6 +37,8 @@ public class AddressBar extends JPanel {
 
     public AddressBar() {
         super(new GridBagLayout());
+
+        this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.weightx = 1;
