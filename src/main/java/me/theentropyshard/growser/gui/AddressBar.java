@@ -23,6 +23,8 @@ import me.theentropyshard.growser.utils.swing.SwingUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class AddressBar extends JPanel {
     private final JButton backButton;
@@ -51,6 +53,17 @@ public class AddressBar extends JPanel {
         this.add(this.refreshButton);
 
         this.addressField = new JTextField();
+        this.addressField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                AddressBar.this.addressField.selectAll();
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                AddressBar.this.addressField.select(0, 0);
+            }
+        });
         this.addressField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter URL");
         this.add(this.addressField, gbc);
 
