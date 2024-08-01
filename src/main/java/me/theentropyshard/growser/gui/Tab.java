@@ -18,19 +18,11 @@
 
 package me.theentropyshard.growser.gui;
 
-import me.theentropyshard.growser.gemini.protocol.GeminiFetch;
-import me.theentropyshard.growser.gemini.text.GemtextParser;
-import me.theentropyshard.growser.gemini.text.HTMLConverter;
-import me.theentropyshard.growser.gemini.text.document.GemtextDocument;
 import me.theentropyshard.growser.utils.swing.SwingUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.net.URI;
-import java.util.concurrent.ExecutionException;
 
 public class Tab extends JPanel {
     public static final String ENTER_ADDRESS_KEY = "ENTER_ADDRESS";
@@ -55,14 +47,9 @@ public class Tab extends JPanel {
         this.addressBar.setUrl(url);
 
         SwingUtils.addKeystroke(
-                KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), this.addressBar.getAddressField(),
-                JComponent.WHEN_FOCUSED, Tab.ENTER_ADDRESS_KEY,
-                new AbstractAction() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        Tab.this.loadURL(Tab.this.addressBar.getUrl());
-                    }
-                }
+            KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), this.addressBar.getAddressField(),
+            JComponent.WHEN_FOCUSED, Tab.ENTER_ADDRESS_KEY,
+            SwingUtils.newAction(e -> Tab.this.loadURL(Tab.this.addressBar.getUrl()))
         );
 
         this.add(this.addressBar, BorderLayout.NORTH);
@@ -70,25 +57,15 @@ public class Tab extends JPanel {
         this.geminiPanel = new GeminiPanel(tabbedPane, this.addressBar);
 
         SwingUtils.addKeystroke(
-                KeyStroke.getKeyStroke(KeyEvent.VK_HOME, 0), this.geminiPanel.getTextPane(),
-                JComponent.WHEN_FOCUSED, Tab.SCROLL_TO_TOP_KEY,
-                new AbstractAction() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        Tab.this.geminiPanel.scrollToTop();
-                    }
-                }
+            KeyStroke.getKeyStroke(KeyEvent.VK_HOME, 0), this.geminiPanel.getTextPane(),
+            JComponent.WHEN_FOCUSED, Tab.SCROLL_TO_TOP_KEY,
+            SwingUtils.newAction(e -> Tab.this.geminiPanel.scrollToTop())
         );
 
         SwingUtils.addKeystroke(
-                KeyStroke.getKeyStroke(KeyEvent.VK_END, 0), this.geminiPanel.getTextPane(),
-                JComponent.WHEN_FOCUSED, Tab.SCROLL_TO_BOTTOM_KEY,
-                new AbstractAction() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        Tab.this.geminiPanel.scrollToBottom();
-                    }
-                }
+            KeyStroke.getKeyStroke(KeyEvent.VK_END, 0), this.geminiPanel.getTextPane(),
+            JComponent.WHEN_FOCUSED, Tab.SCROLL_TO_BOTTOM_KEY,
+            SwingUtils.newAction(e -> Tab.this.geminiPanel.scrollToBottom())
         );
 
         this.add(this.geminiPanel, BorderLayout.CENTER);
@@ -99,39 +76,20 @@ public class Tab extends JPanel {
     }
 
     private void loadURL(String url) {
-        new SwingWorker<String[], Void>() {
-            @Override
-            protected String[] doInBackground() {
-                try {
-                    String gemtext = GeminiFetch.fetchWebPage(url);
-                    GemtextParser parser = new GemtextParser();
-                    GemtextDocument doc = parser.parse(gemtext);
-
-                    return new String[] {doc.getTitle(), HTMLConverter.convertToHTML(doc)};
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-
-            @Override
-            protected void done() {
-                String[] data;
-
-                try {
-                    data = this.get();
-                } catch (InterruptedException | ExecutionException e) {
-                    throw new RuntimeException(e);
-                }
-
-                int tabIndex = Tab.this.tabbedPane.indexOfComponent(Tab.this);
-                Tab.this.tabbedPane.setTitleAt(tabIndex, data[0]);
-                Tab.this.geminiPanel.setHTML(data[1]);
-                Tab.this.geminiPanel.scrollToTop();
-            }
-        }.execute();
+        new LoadURLWorker(url, this, e -> System.err.println(
+            "Could not load " + url + " because: " + e.getMessage()
+        )).execute();
     }
 
     public void onClose() {
 
+    }
+
+    public JTabbedPane getTabbedPane() {
+        return this.tabbedPane;
+    }
+
+    public GeminiPanel getGeminiPanel() {
+        return this.geminiPanel;
     }
 }
