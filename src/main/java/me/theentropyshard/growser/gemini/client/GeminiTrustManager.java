@@ -16,27 +16,24 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.growser.gemini.protocol.exception;
+package me.theentropyshard.growser.gemini.client;
 
-import java.io.IOException;
-import java.net.URL;
+import javax.net.ssl.X509TrustManager;
+import java.security.cert.X509Certificate;
 
-public class ErrorResponseException extends IOException {
-    private final URL url;
-    private final int status;
+public class GeminiTrustManager implements X509TrustManager {
+    @Override
+    public void checkClientTrusted(X509Certificate[] certs, String authType) {
 
-    public ErrorResponseException(URL url, int status, String message) {
-        super(message);
-
-        this.url = url;
-        this.status = status;
     }
 
-    public URL getURL() {
-        return this.url;
+    @Override
+    public void checkServerTrusted(X509Certificate[] certs, String authType) {
+
     }
 
-    public int getStatus() {
-        return this.status;
+    @Override
+    public X509Certificate[] getAcceptedIssuers() {
+        return null;
     }
 }

@@ -18,16 +18,11 @@
 
 package me.theentropyshard.growser;
 
-import me.theentropyshard.growser.gemini.protocol.GeminiURLStreamHandlerFactory;
 import me.theentropyshard.growser.gui.Gui;
 import me.theentropyshard.growser.gui.Tab;
 
-import java.net.URL;
-
 public class Growser {
     public Growser() {
-        URL.setURLStreamHandlerFactory(new GeminiURLStreamHandlerFactory());
-
         Gui gui = new Gui();
         gui.getTabbedPane().addTab("Title", new Tab(gui.getTabbedPane()));
     }

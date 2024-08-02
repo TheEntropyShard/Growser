@@ -18,7 +18,7 @@
 
 package me.theentropyshard.growser.gui;
 
-import me.theentropyshard.growser.gemini.protocol.GeminiFetch;
+import me.theentropyshard.growser.gemini.GeminiFetch;
 import me.theentropyshard.growser.gemini.text.GemtextParser;
 import me.theentropyshard.growser.gemini.text.HTMLConverter;
 import me.theentropyshard.growser.gemini.text.document.GemtextDocument;
