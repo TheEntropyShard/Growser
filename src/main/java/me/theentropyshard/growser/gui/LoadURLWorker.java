@@ -21,6 +21,7 @@ package me.theentropyshard.growser.gui;
 import me.theentropyshard.growser.gemini.GeminiFetch;
 import me.theentropyshard.growser.gemini.text.GemtextParser;
 import me.theentropyshard.growser.gemini.text.document.GemtextPage;
+import me.theentropyshard.growser.gui.debug.StructureDialog;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -76,5 +77,8 @@ public class LoadURLWorker extends SwingWorker<String[], Void> {
         this.tab.getGeminiPanel().setHTML(data[1]);
         this.tab.getGeminiPanel().scrollToTop();
         this.tab.getGeminiPanel().requestFocus();
+
+        JTextPane textPane = this.tab.getGeminiPanel().getTextPane();
+        //new StructureDialog(Gui.sFrame, textPane).setVisible(true);
     }
 }

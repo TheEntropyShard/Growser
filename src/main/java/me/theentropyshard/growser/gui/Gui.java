@@ -37,6 +37,8 @@ public class Gui {
     private final JTabbedPane tabbedPane;
     private final JFrame frame;
 
+    public static JFrame sFrame;
+
     public Gui() {
         JEditorPane.registerEditorKitForContentType("text/gemini", GemtextEditorKit.class.getName());
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -53,7 +55,7 @@ public class Gui {
         this.tabbedPane.putClientProperty(FlatClientProperties.TABBED_PANE_MINIMUM_TAB_WIDTH, Gui.MIN_TAB_WIDTH);
         this.tabbedPane.putClientProperty(FlatClientProperties.TABBED_PANE_MAXIMUM_TAB_WIDTH, Gui.MAX_TAB_WIDTH);
 
-        this.frame = new JFrame(Gui.TITLE);
+        sFrame = this.frame = new JFrame(Gui.TITLE);
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.frame.getRootPane().putClientProperty(FlatClientProperties.FULL_WINDOW_CONTENT, true);
         this.frame.add(this.tabbedPane, BorderLayout.CENTER);
