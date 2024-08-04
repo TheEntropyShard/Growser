@@ -20,6 +20,7 @@ package me.theentropyshard.growser.gui;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import me.theentropyshard.growser.gui.text.GemtextEditorKit;
 import me.theentropyshard.growser.utils.swing.SwingUtils;
 
 import javax.swing.*;
@@ -37,6 +38,7 @@ public class Gui {
     private final JFrame frame;
 
     public Gui() {
+        JEditorPane.registerEditorKitForContentType("text/gemini", GemtextEditorKit.class.getName());
         JFrame.setDefaultLookAndFeelDecorated(true);
         JDialog.setDefaultLookAndFeelDecorated(true);
         FlatIntelliJLaf.setup();

@@ -49,7 +49,8 @@ public class LoadURLWorker extends SwingWorker<String[], Void> {
             GemtextParser parser = new GemtextParser();
             GemtextPage doc = parser.parse(gemtext);
 
-            return new String[]{doc.getTitle(), HTMLConverter.convertToHTML(doc)};
+            return new String[]{doc.getTitle(), gemtext};
+            //return new String[]{doc.getTitle(), HTMLConverter.convertToHTML(doc)};
         } catch (IOException e) {
             this.listener.onException(e);
 

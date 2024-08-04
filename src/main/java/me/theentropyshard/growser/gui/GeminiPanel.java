@@ -20,14 +20,20 @@ package me.theentropyshard.growser.gui;
 
 import com.formdev.flatlaf.ui.FlatScrollPaneUI;
 import me.theentropyshard.growser.gui.addressbar.AddressBar;
+import me.theentropyshard.growser.gui.text.GemtextEditorKit;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
+import javax.swing.text.AttributeSet;
 import javax.swing.text.DefaultCaret;
-import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.Element;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelListener;
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 
 public class GeminiPanel extends JPanel implements HyperlinkListener {
@@ -57,15 +63,57 @@ public class GeminiPanel extends JPanel implements HyperlinkListener {
         caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
 
         this.textPane.setFont(this.textPane.getFont().deriveFont(14.0f));
-        this.textPane.setEditorKit(new HTMLEditorKit());
-        this.textPane.setContentType("text/html");
+        this.textPane.setEditorKit(new GemtextEditorKit(this.textPane));
+        this.textPane.setContentType("text/gemini");
         this.textPane.setEditable(false);
         this.textPane.addHyperlinkListener(this);
 
+        this.textPane.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int i = GeminiPanel.this.textPane.viewToModel(e.getPoint());
+                Element root = GeminiPanel.this.textPane.getDocument().getDefaultRootElement();
+                int elementIndex = root.getElementIndex(i);
+                Element element = root.getElement(elementIndex);
+
+                if (!element.isLeaf()) {
+                    Element linkElement = element.getElement(0);
+                    AttributeSet attributes = linkElement.getAttributes();
+                    Object attribute = attributes.getAttribute("link.link");
+                    if (attribute != null) {
+                        GeminiPanel.this.textPane.fireHyperlinkUpdate(
+                            new HyperlinkEvent(GeminiPanel.this.textPane,
+                                HyperlinkEvent.EventType.ACTIVATED, null, attribute.toString(),
+                            linkElement, e));
+                    }
+                }
+
+            }
+        });
+
+        this.textPane.addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                int i = GeminiPanel.this.textPane.viewToModel(e.getPoint());
+                Element root = GeminiPanel.this.textPane.getDocument().getDefaultRootElement();
+                int elementIndex = root.getElementIndex(i);
+                Element element = root.getElement(elementIndex);
+
+                if (!element.isLeaf()) {
+                    Element linkElement = element.getElement(0);
+                    AttributeSet attributes = linkElement.getAttributes();
+                    Object attribute = attributes.getAttribute("link.link");
+                    if (attribute != null) {
+
+                    }
+                }
+            }
+        });
+
         this.scrollPane = new JScrollPane(
-                this.textPane,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+            this.textPane,
+            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
         ) {
             @Override
             protected void paintBorder(Graphics g) {
