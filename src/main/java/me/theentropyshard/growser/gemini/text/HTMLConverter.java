@@ -23,7 +23,7 @@ import me.theentropyshard.growser.gemini.text.document.*;
 import java.util.List;
 
 public class HTMLConverter {
-    public static String convertToHTML(GemtextDocument doc) {
+    public static String convertToHTML(GemtextPage doc) {
         StringBuilder html = new StringBuilder();
         html.append("<html>");
         html.append("<body>");

@@ -36,7 +36,7 @@ public class GemtextParser {
 
     }
 
-    public GemtextDocument parse(String text) {
+    public GemtextPage parse(String text) {
         List<GemtextElement> elements = new ArrayList<>();
 
         String[] lines = text.split("\\n");
@@ -94,6 +94,6 @@ public class GemtextParser {
             }
         }
 
-        return new GemtextDocument(title, elements);
+        return new GemtextPage(title, elements);
     }
 }

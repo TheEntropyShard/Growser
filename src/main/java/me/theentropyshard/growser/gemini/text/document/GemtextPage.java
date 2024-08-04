@@ -20,11 +20,11 @@ package me.theentropyshard.growser.gemini.text.document;
 
 import java.util.List;
 
-public class GemtextDocument {
+public class GemtextPage {
     private final String title;
     private final List<GemtextElement> elements;
 
-    public GemtextDocument(String title, List<GemtextElement> elements) {
+    public GemtextPage(String title, List<GemtextElement> elements) {
         this.title = title;
         this.elements = elements;
     }

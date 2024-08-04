@@ -21,7 +21,7 @@ package me.theentropyshard.growser.gui;
 import me.theentropyshard.growser.gemini.GeminiFetch;
 import me.theentropyshard.growser.gemini.text.GemtextParser;
 import me.theentropyshard.growser.gemini.text.HTMLConverter;
-import me.theentropyshard.growser.gemini.text.document.GemtextDocument;
+import me.theentropyshard.growser.gemini.text.document.GemtextPage;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -47,7 +47,7 @@ public class LoadURLWorker extends SwingWorker<String[], Void> {
         try {
             String gemtext = GeminiFetch.fetchWebPage(this.url);
             GemtextParser parser = new GemtextParser();
-            GemtextDocument doc = parser.parse(gemtext);
+            GemtextPage doc = parser.parse(gemtext);
 
             return new String[]{doc.getTitle(), HTMLConverter.convertToHTML(doc)};
         } catch (IOException e) {
