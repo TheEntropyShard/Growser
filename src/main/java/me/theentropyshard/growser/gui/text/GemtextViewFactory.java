@@ -5,6 +5,10 @@ import javax.swing.text.*;
 public class GemtextViewFactory implements ViewFactory {
     @Override
     public View create(Element element) {
+        if (element.getAttributes().getAttribute("preformatted") != null) {
+            return new PreformattedView(element);
+        }
+
         String kind = element.getName();
 
         if (kind != null) {

@@ -84,10 +84,12 @@ public class GemtextDocument extends DefaultStyledDocument {
     }
 
     private void writePreformatted(String text) throws BadLocationException {
-        this.setParagraphAttributes(this.position, text.length(), GemtextDocument.getParagraphAttrs(), false);
+        SimpleAttributeSet paragraphAttrs = GemtextDocument.getParagraphAttrs();
+        StyleConstants.setLineSpacing(paragraphAttrs, 0);
+        this.setParagraphAttributes(this.position, text.length(), paragraphAttrs, false);
         SimpleAttributeSet preformattedAttrs = GemtextDocument.getPreformattedAttrs();
         preformattedAttrs.addAttribute("preformatted", "value");
-        this.writeText(text + "\n", preformattedAttrs);
+        this.writeText("\n" + text + "\n", preformattedAttrs);
     }
 
     private void writeHeader(String text, int size) throws BadLocationException {
