@@ -147,18 +147,27 @@ public class GeminiPanel extends JPanel implements HyperlinkListener {
             if (url == null) {
                 String desc = e.getDescription();
 
-                String baseUrl = this.addressBar.getUrl();
-
-                if ((baseUrl.endsWith("/") && !desc.startsWith("/")) || (!baseUrl.endsWith("/") && desc.startsWith("/"))) {
-                    sUrl = baseUrl + desc;
-                } else if (baseUrl.endsWith("/") && desc.startsWith("/")) {
-                    sUrl = baseUrl + desc.substring(1);
-                } else if (!baseUrl.endsWith("/") && !desc.startsWith("/")) {
-                    sUrl = baseUrl + "/" + desc;
+                if (desc.startsWith("gemini://")) {
+                    sUrl = desc;
                 } else {
-                    System.out.println("WARN: Unknown error. baseUrl: " + baseUrl + ", desc: " + desc);
 
-                    return;
+                    String baseUrl = this.addressBar.getUrl();
+
+                    if (baseUrl.endsWith(".gmi")) {
+                        baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("/"));
+                    }
+
+                    if ((baseUrl.endsWith("/") && !desc.startsWith("/")) || (!baseUrl.endsWith("/") && desc.startsWith("/"))) {
+                        sUrl = baseUrl + desc;
+                    } else if (baseUrl.endsWith("/") && desc.startsWith("/")) {
+                        sUrl = baseUrl + desc.substring(1);
+                    } else if (!baseUrl.endsWith("/") && !desc.startsWith("/")) {
+                        sUrl = baseUrl + "/" + desc;
+                    } else {
+                        System.out.println("WARN: Unknown error. baseUrl: " + baseUrl + ", desc: " + desc);
+
+                        return;
+                    }
                 }
             } else {
                 sUrl = url.toString();
