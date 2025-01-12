@@ -85,7 +85,7 @@ public class GemtextParser {
                 }
 
                 if (spaceIndex == -1) {
-                    elements.add(new GemtextLinkElement(line, null));
+                    elements.add(new GemtextLinkElement(line, line));
                 } else {
                     elements.add(new GemtextLinkElement(line.substring(0, spaceIndex), line.substring(spaceIndex)));
                 }
