@@ -77,8 +77,16 @@ public class Tab extends JPanel {
     }
 
     private void loadURL(String url) {
-        new LoadURLWorker(url, this, e -> System.err.println(
-            "Could not load " + url + " because: " + e.getMessage()
+        String finalUrl;
+
+        if (!url.startsWith("gemini://")) {
+            finalUrl = "gemini://" + url;
+        } else {
+            finalUrl = url;
+        }
+
+        new LoadURLWorker(finalUrl, this, e -> System.err.println(
+            "Could not load " + finalUrl + " because: " + e.getMessage()
         )).execute();
     }
 
