@@ -41,13 +41,13 @@ public class AddressBar extends JPanel {
         gbc.weightx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        this.backButton = new AddressBarButton("/assets/arrow_back_x24.png");
+        this.backButton = new AddressBarButton("/assets/icons/arrow_back_x24.png");
         this.add(this.backButton);
 
-        this.forwardButton = new AddressBarButton("/assets/arrow_forward_x24.png");
+        this.forwardButton = new AddressBarButton("/assets/icons/arrow_forward_x24.png");
         this.add(this.forwardButton);
 
-        this.refreshButton = new AddressBarButton("/assets/refresh_x24.png");
+        this.refreshButton = new AddressBarButton("/assets/icons/refresh_x24.png");
         this.add(this.refreshButton);
 
         this.addressField = new JTextField();
@@ -65,7 +65,7 @@ public class AddressBar extends JPanel {
         this.addressField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter URL");
         this.add(this.addressField, gbc);
 
-        this.moreButton = new AddressBarButton("/assets/more_vert_x24.png");
+        this.moreButton = new AddressBarButton("/assets/icons/more_vert_x24.png");
         this.add(this.moreButton);
     }
 
