@@ -84,11 +84,24 @@ public class GemtextParser {
                     }
                 }
 
+                String link;
+                String label;
+
                 if (spaceIndex == -1) {
-                    elements.add(new GemtextLinkElement(line, line));
+                    link = line;
+                    label = line;
                 } else {
-                    elements.add(new GemtextLinkElement(line.substring(0, spaceIndex), line.substring(spaceIndex)));
+                    link = line.substring(0, spaceIndex);
+                    label = line.substring(spaceIndex).trim();
+
+                    if (line.startsWith("http://")) {
+                        label = "[HTTP] " + label;
+                    } else if (line.startsWith("https://")) {
+                        label = "[HTTPS] " + label;
+                    }
                 }
+
+                elements.add(new GemtextLinkElement(link, label));
             } else {
                 elements.add(new GemtextParagraphElement(line));
             }
