@@ -2,6 +2,8 @@
 
 Growser is made using Java Swing
 
+![Screenshot](images/Screenshot.png)
+
 ## Quick Start
 
 ```shell
