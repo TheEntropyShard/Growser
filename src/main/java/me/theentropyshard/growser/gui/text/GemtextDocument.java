@@ -126,13 +126,15 @@ public class GemtextDocument extends DefaultStyledDocument {
                 throw new IllegalArgumentException("Unexpected header level: " + level + ", must be 1, 2, or 3");
         }
 
+        StyleConstants.setFontFamily(attrs, "Roboto");
+
         return attrs;
     }
 
     private static SimpleAttributeSet getTextAttrs() {
         SimpleAttributeSet attrs = new SimpleAttributeSet();
 
-        StyleConstants.setFontFamily(attrs, "sans-serif");
+        StyleConstants.setFontFamily(attrs, "Roboto");
         StyleConstants.setFontSize(attrs, 14);
 
         return attrs;

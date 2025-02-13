@@ -45,6 +45,8 @@ public class Gui {
         JDialog.setDefaultLookAndFeelDecorated(true);
         FlatIntelliJLaf.setup();
 
+        this.registerFont();
+
         this.tabbedPane = new JTabbedPane();
         this.tabbedPane.setPreferredSize(new Dimension(Gui.WINDOW_WIDTH, Gui.WINDOW_HEIGHT));
         this.tabbedPane.putClientProperty(FlatClientProperties.TABBED_PANE_TAB_CLOSABLE, true);
@@ -62,6 +64,19 @@ public class Gui {
         this.frame.pack();
         SwingUtils.centerWindow(this.frame, 0);
         this.frame.setVisible(true);
+    }
+
+    private void registerFont() {
+        try {
+            Font font = Font.createFont(Font.TRUETYPE_FONT, Gui.class.getResourceAsStream("/assets/fonts/roboto/static/Roboto-Regular.ttf"));
+            System.out.println(font.getFontName());
+            System.out.println(font.getFamily());
+
+            GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            env.registerFont(font);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public JTabbedPane getTabbedPane() {

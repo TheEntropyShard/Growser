@@ -86,7 +86,7 @@ public class Tab extends JPanel {
         }
 
         new LoadURLWorker(finalUrl, this, e -> System.err.println(
-            "Could not load " + finalUrl + " because: " + e.getMessage()
+            "Could not load " + finalUrl + " because: " + e
         )).execute();
     }
 

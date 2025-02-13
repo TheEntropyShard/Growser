@@ -24,6 +24,6 @@ import me.theentropyshard.growser.gui.Tab;
 public class Growser {
     public Growser() {
         Gui gui = new Gui();
-        gui.getTabbedPane().addTab("Title", new Tab(gui.getTabbedPane()));
+        gui.getTabbedPane().addTab("Title", new Tab("geminiprotocol.net", gui.getTabbedPane()));
     }
 }
