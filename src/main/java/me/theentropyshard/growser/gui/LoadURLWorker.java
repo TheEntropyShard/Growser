@@ -46,6 +46,7 @@ public class LoadURLWorker extends SwingWorker<String[], Void> {
     protected String[] doInBackground() {
         try {
             String gemtext = GeminiFetch.fetchWebPage(this.url);
+            System.out.println(gemtext);
             GemtextParser parser = new GemtextParser();
             GemtextPage doc = parser.parse(gemtext);
 
