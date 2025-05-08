@@ -16,11 +16,12 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.growser.gemini.text;
+package me.theentropyshard.growser.gemini.gemtext;
 
-import me.theentropyshard.growser.gemini.text.document.*;
+import me.theentropyshard.growser.gemini.gemtext.document.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class GemtextParser {
@@ -39,27 +40,38 @@ public class GemtextParser {
     public GemtextPage parse(String text) {
         List<GemtextElement> elements = new ArrayList<>();
 
-        String[] lines = text.split("\\n");
+        String[] lines = text.split("\\r?\\n");
 
         boolean inPreBlock = false;
         String preCaption = null;
-        StringBuilder preContents = new StringBuilder();
+        List<String> preContents = new ArrayList<>();
         String title = null;
 
+        GemtextListElement listElement = null;
+
         for (String line : lines) {
+            if (!line.startsWith(GemtextParser.LIST_ITEM_START) && listElement != null) {
+                elements.add(listElement);
+                listElement = null;
+            }
+
             if (line.startsWith(GemtextParser.PREFORMATTED_START)) {
                 if (inPreBlock) {
-                    elements.add(new GemtextPreformattedElement(preCaption, preContents.toString()));
-                    preContents = new StringBuilder();
+                    elements.add(new GemtextPreformattedElement(preCaption, String.join("\n", preContents)));
+                    preContents = new ArrayList<>();
                 } else {
                     String caption = line.substring(3);
                     preCaption = caption.length() == 0 ? null : caption;
                 }
                 inPreBlock = !inPreBlock;
             } else if (inPreBlock) {
-                preContents.append(line).append("\n");
+                preContents.add(line);
             } else if (line.startsWith(GemtextParser.LIST_ITEM_START)) {
-                elements.add(new GemtextListItemElement(line.substring(2)));
+                if (listElement == null) {
+                    listElement = new GemtextListElement();
+                }
+
+                listElement.add(line.substring(2));
             } else if (line.startsWith(GemtextParser.H1_START)) {
                 String h1Content = line.substring(2);
                 if (title == null) {
@@ -89,22 +101,20 @@ public class GemtextParser {
 
                 if (spaceIndex == -1) {
                     link = line;
-                    label = line;
+                    label = null;
                 } else {
                     link = line.substring(0, spaceIndex);
                     label = line.substring(spaceIndex).trim();
-
-                    if (line.startsWith("http://")) {
-                        label = "[HTTP] " + label;
-                    } else if (line.startsWith("https://")) {
-                        label = "[HTTPS] " + label;
-                    }
                 }
 
                 elements.add(new GemtextLinkElement(link, label));
             } else {
                 elements.add(new GemtextParagraphElement(line));
             }
+        }
+
+        if (listElement != null) {
+            elements.add(listElement);
         }
 
         return new GemtextPage(title, elements);

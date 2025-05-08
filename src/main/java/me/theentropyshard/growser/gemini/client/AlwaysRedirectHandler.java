@@ -16,29 +16,11 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.growser.gui.text;
+package me.theentropyshard.growser.gemini.client;
 
-import javax.swing.text.Element;
-import javax.swing.text.ParagraphView;
-import java.awt.*;
-
-public class ListItemView extends ParagraphView {
-    public ListItemView(Element element) {
-        super(element);
-    }
-
+public class AlwaysRedirectHandler implements RedirectHandler {
     @Override
-    public void paint(Graphics g, Shape a) {
-        Graphics graphics = g.create();
-
-        Rectangle bounds = a.getBounds();
-        graphics.setColor(Color.BLACK);
-        int offset = 15;
-        int size = g.getFont().getSize() / 2 - 1;
-        graphics.fillOval(bounds.x + offset / 2, (bounds.y + size) - 1, size, size);
-
-        graphics.translate(offset, 0);
-
-        super.paint(g, a);
+    public boolean redirect(String destination, int attempt) {
+        return true;
     }
 }

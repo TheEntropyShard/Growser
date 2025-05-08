@@ -16,10 +16,10 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.growser.gemini.text.document;
+package me.theentropyshard.growser.gemini.gemtext.document;
 
 public class GemtextH1Element extends GemtextTextElement {
     public GemtextH1Element(String text) {
-        super(Type.H1, text);
+        super(GemtextElementType.HEADING_L1, text);
     }
 }

@@ -18,10 +18,7 @@
 
 package me.theentropyshard.growser.utils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
@@ -79,13 +76,44 @@ public class StreamUtils {
         return new String(StreamUtils.readToBAOS(inputStream).toByteArray(), charset);
     }
 
-    public static void closeQuietly(InputStream inputStream) {
-        if (inputStream == null) {
+    public static byte[] readUntilDelimiter(InputStream inputStream, byte[] delimiter) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        int readByte;
+        int matchIndex = 0;
+
+        int delimiterLength = delimiter.length;
+
+        while ((readByte = inputStream.read()) != -1) {
+            if (readByte == delimiter[matchIndex]) {
+                matchIndex++;
+
+                if (matchIndex == delimiterLength) {
+                    break;
+                }
+            } else {
+                if (matchIndex > 0) {
+                    for (int i = 0; i < matchIndex; i++) {
+                        baos.write(delimiter[i]);
+                    }
+
+                    matchIndex = 0;
+                }
+
+                baos.write(readByte);
+            }
+        }
+
+        return baos.toByteArray();
+    }
+
+    public static void closeQuietly(Closeable closeable) {
+        if (closeable == null) {
             return;
         }
 
         try {
-            inputStream.close();
+            closeable.close();
         } catch (IOException ignored) {
 
         }

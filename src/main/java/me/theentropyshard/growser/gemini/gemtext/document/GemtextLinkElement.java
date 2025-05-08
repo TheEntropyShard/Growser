@@ -16,10 +16,29 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.growser.gemini.text.document;
+package me.theentropyshard.growser.gemini.gemtext.document;
 
-public class GemtextListItemElement extends GemtextTextElement {
-    public GemtextListItemElement(String text) {
-        super(Type.LIST_ITEM, text);
+public class GemtextLinkElement extends GemtextElement {
+    private final String link;
+    private final String label;
+
+    public GemtextLinkElement(String link, String label) {
+        super(GemtextElementType.LINK);
+
+        this.link = link;
+        this.label = label;
+    }
+
+    @Override
+    public String toString() {
+        return this.label == null || this.label.trim().isEmpty() ? this.link : (this.label + " (" + this.link + ")");
+    }
+
+    public String getLink() {
+        return this.link;
+    }
+
+    public String getLabel() {
+        return this.label;
     }
 }

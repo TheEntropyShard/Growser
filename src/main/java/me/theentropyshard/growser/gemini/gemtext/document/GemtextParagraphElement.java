@@ -16,18 +16,10 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.growser.gui.addressbar;
+package me.theentropyshard.growser.gemini.gemtext.document;
 
-import com.formdev.flatlaf.FlatClientProperties;
-import me.theentropyshard.growser.utils.swing.SwingUtils;
-
-import javax.swing.*;
-
-public class AddressBarButton extends JButton {
-    public AddressBarButton(String iconPath) {
-        super(SwingUtils.getIcon(iconPath));
-
-        this.putClientProperty(FlatClientProperties.BUTTON_TYPE, FlatClientProperties.BUTTON_TYPE_TOOLBAR_BUTTON);
-        this.setFocusPainted(false);
+public class GemtextParagraphElement extends GemtextTextElement {
+    public GemtextParagraphElement(String text) {
+        super(GemtextElementType.PARAGRAPH, text);
     }
 }

@@ -18,25 +18,68 @@
 
 package me.theentropyshard.growser.gemini.client;
 
+import me.theentropyshard.growser.utils.StreamUtils;
+
 import javax.net.ssl.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.security.SecureRandom;
 import java.util.Collections;
 
 public class GeminiClient {
+    private final RedirectHandler redirectHandler;
+
     private final SSLContext context;
 
+    private int redirectAttempt = 1;
+
     public GeminiClient() {
+        this(new LimitRedirectHandler());
+    }
+
+    public GeminiClient(RedirectHandler redirectHandler) {
+        this.redirectHandler = redirectHandler;
+
         this.context = this.initSSLContext();
     }
 
     public GeminiResponse send(GeminiRequest request) throws IOException {
-        @SuppressWarnings("resource")
         SSLSocket socket = this.createSSLSocket(this.context, request.getHost(), request.getPort());
 
         request.writeTo(socket.getOutputStream());
 
-        return GeminiResponse.readFrom(socket.getInputStream());
+        InputStream inputStream = socket.getInputStream();
+
+        int firstCodeDigit = ((char) inputStream.read()) - '0';
+        int secondCodeDigit = ((char) inputStream.read()) - '0';
+        int code = firstCodeDigit * 10 + secondCodeDigit;
+
+        inputStream.read(); // Skip the space
+
+        byte[] crlf = "\r\n".getBytes(StandardCharsets.US_ASCII);
+
+        String metaInfo = new String(StreamUtils.readUntilDelimiter(inputStream, crlf), StandardCharsets.UTF_8);
+
+        if (firstCodeDigit == 3 && this.redirectHandler.redirect(metaInfo, this.redirectAttempt)) {
+            this.redirectAttempt++;
+
+            StreamUtils.closeQuietly(socket);
+
+            if (metaInfo.startsWith("gemini://")) {
+                return this.send(new GeminiRequest(metaInfo));
+            } else {
+                return this.send(new GeminiRequest(request.getRawUri().resolve(metaInfo)));
+            }
+        } else {
+            this.redirectAttempt = 0;
+        }
+
+        return new GeminiResponse(code, metaInfo, inputStream);
     }
 
     private SSLContext initSSLContext() {
@@ -45,7 +88,7 @@ public class GeminiClient {
                 new GeminiTrustManager()
             };
 
-            SSLContext context = SSLContext.getInstance("SSL");
+            SSLContext context = SSLContext.getInstance("TLS");
             context.init(null, trustManagers, new SecureRandom());
 
             return context;
@@ -60,6 +103,7 @@ public class GeminiClient {
         SSLParameters params = new SSLParameters();
         params.setServerNames(Collections.singletonList(new SNIHostName(host)));
         socket.setSSLParameters(params);
+        socket.setEnabledProtocols(new String[]{"TLSv1.2", "TLSv1.3"});
 
         return socket;
     }

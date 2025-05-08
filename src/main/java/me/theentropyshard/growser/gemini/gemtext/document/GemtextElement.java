@@ -16,10 +16,21 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.growser.gemini.text.document;
+package me.theentropyshard.growser.gemini.gemtext.document;
 
-public class GemtextBlockquoteElement extends GemtextTextElement {
-    public GemtextBlockquoteElement(String text) {
-        super(Type.BLOCKQUOTE, text);
+public abstract class GemtextElement {
+    private final GemtextElementType type;
+
+    public GemtextElement(GemtextElementType type) {
+        this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return this.type.name();
+    }
+
+    public GemtextElementType getType() {
+        return this.type;
     }
 }

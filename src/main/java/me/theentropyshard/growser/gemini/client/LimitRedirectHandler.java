@@ -16,18 +16,21 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.growser.gemini.text.document;
+package me.theentropyshard.growser.gemini.client;
 
-public abstract class GemtextTextElement extends GemtextElement {
-    private final String text;
+public class LimitRedirectHandler implements RedirectHandler {
+    private final int limit;
 
-    public GemtextTextElement(Type type, String text) {
-        super(type);
-
-        this.text = text;
+    public LimitRedirectHandler() {
+        this(5);
     }
 
-    public String getText() {
-        return this.text;
+    public LimitRedirectHandler(int limit) {
+        this.limit = limit;
+    }
+
+    @Override
+    public boolean redirect(String destination, int attempt) {
+        return attempt < this.limit;
     }
 }

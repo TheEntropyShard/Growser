@@ -16,15 +16,10 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.growser.gui.text;
+package me.theentropyshard.growser.gemini.gemtext.document;
 
-import javax.swing.text.*;
-import java.awt.*;
-
-public class BlockquoteView extends LabelView {
-    public BlockquoteView(Element element) {
-        super(element);
+public class GemtextH2Element extends GemtextTextElement {
+    public GemtextH2Element(String text) {
+        super(GemtextElementType.HEADING_L2, text);
     }
-
-
 }

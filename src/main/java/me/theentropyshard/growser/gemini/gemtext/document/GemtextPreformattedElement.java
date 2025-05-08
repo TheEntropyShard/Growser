@@ -16,10 +16,18 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.growser.gemini.text.document;
+package me.theentropyshard.growser.gemini.gemtext.document;
 
-public class GemtextParagraphElement extends GemtextTextElement {
-    public GemtextParagraphElement(String text) {
-        super(Type.TEXT, text);
+public class GemtextPreformattedElement extends GemtextTextElement {
+    private final String caption;
+
+    public GemtextPreformattedElement(String caption, String text) {
+        super(GemtextElementType.PREFORMATTED, text);
+
+        this.caption = caption;
+    }
+
+    public String getCaption() {
+        return this.caption;
     }
 }

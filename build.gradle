@@ -4,7 +4,7 @@ plugins {
 }
 
 def theMainClass = 'me.theentropyshard.growser.Main'
-def theVersion = '0.0.1'
+def theVersion = '0.1.0'
 
 group = 'me.theentropyshard'
 version = theVersion
@@ -30,11 +30,23 @@ ext {
     flatlaf = '3.4.1'
     miglayout = '5.3'
     junit = '5.7.2'
+    gson = '2.11.0'
+    zip4j = '2.11.5'
+    jcommander = '1.82'
+    log4j = '2.20.0'
+    imageiowebp = '3.12.0'
 }
 
 dependencies {
     implementation "com.formdev:flatlaf:$flatlaf"
+    implementation "com.formdev:flatlaf-extras:$flatlaf"
     implementation "com.miglayout:miglayout-swing:$miglayout"
+    implementation "com.google.code.gson:gson:$gson"
+    implementation "net.lingala.zip4j:zip4j:$zip4j"
+    implementation "com.beust:jcommander:$jcommander"
+    implementation "com.twelvemonkeys.imageio:imageio-webp:$imageiowebp"
+    implementation "org.apache.logging.log4j:log4j-api:$log4j"
+    implementation "org.apache.logging.log4j:log4j-core:$log4j"
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:$junit"

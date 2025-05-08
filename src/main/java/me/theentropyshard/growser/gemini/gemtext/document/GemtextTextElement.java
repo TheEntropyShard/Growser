@@ -16,32 +16,23 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.growser.gemini.text.document;
+package me.theentropyshard.growser.gemini.gemtext.document;
 
-public abstract class GemtextElement {
-    private final Type type;
+public abstract class GemtextTextElement extends GemtextElement {
+    private final String text;
 
-    public GemtextElement(Type type) {
-        this.type = type;
+    public GemtextTextElement(GemtextElementType type, String text) {
+        super(type);
+
+        this.text = text;
     }
 
     @Override
     public String toString() {
-        return this.type.name();
+        return this.getText();
     }
 
-    public Type getType() {
-        return this.type;
-    }
-
-    public enum Type {
-        TEXT,
-        LINK,
-        LIST_ITEM,
-        H1,
-        H2,
-        H3,
-        BLOCKQUOTE,
-        PREFORMATTED
+    public String getText() {
+        return this.text;
     }
 }

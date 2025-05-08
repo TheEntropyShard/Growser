@@ -20,54 +20,33 @@ package me.theentropyshard.growser.gemini.client;
 
 import me.theentropyshard.growser.utils.StreamUtils;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class GeminiResponse implements Closeable {
     private final int statusCode;
     private final String metaInfo;
-    private final String  inputStream;
+    private final InputStream inputStream;
 
-    public GeminiResponse(int statusCode, String metaInfo, String inputStream) {
+    public GeminiResponse(int statusCode, String metaInfo, InputStream inputStream) {
         this.statusCode = statusCode;
         this.metaInfo = metaInfo;
         this.inputStream = inputStream;
     }
 
-    public static GeminiResponse readFrom(InputStream inputStream) throws IOException {
-        String content = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-
-        StringReader reader = new StringReader(content);
-        char[] rawCode = new char[3];
-        reader.read(rawCode);
-        int code = (rawCode[0] - '0') * 10 + rawCode[1] - '0';
-
-        char c;
-        while ((c = (char) reader.read()) != 65535) {
-            if (c == '\n') {
-                break;
-            }
-        }
-
-        StringWriter writer = new StringWriter();
-        reader.transferTo(writer);
-        return new GeminiResponse(code, "text/gemini", writer.toString());
-    }
-
     public String readToString() throws IOException {
-        //return StreamUtils.readToString(this.inputStream);
-        return this.inputStream;
+        return StreamUtils.readToString(this.inputStream);
     }
 
     public byte[] readToByteArray() throws IOException {
-        //return StreamUtils.readToByteArray(this.inputStream);
-        return null;
+        return StreamUtils.readToByteArray(this.inputStream);
     }
 
     @Override
     public void close() throws IOException {
         if (this.inputStream != null) {
-            //this.inputStream.close();
+            this.inputStream.close();
         }
     }
 
@@ -80,7 +59,6 @@ public class GeminiResponse implements Closeable {
     }
 
     public InputStream getInputStream() {
-        //return this.inputStream;
-        return null;
+        return this.inputStream;
     }
 }

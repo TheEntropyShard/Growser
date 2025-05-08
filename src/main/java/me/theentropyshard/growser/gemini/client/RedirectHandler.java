@@ -16,29 +16,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.growser.gemini.text.document;
+package me.theentropyshard.growser.gemini.client;
 
-import java.util.List;
-
-public class GemtextPage {
-    private final String title;
-    private final List<GemtextElement> elements;
-
-    public GemtextPage(String title, List<GemtextElement> elements) {
-        this.title = title;
-        this.elements = elements;
-    }
-
-    @Override
-    public String toString() {
-        return this.elements.toString();
-    }
-
-    public String getTitle() {
-        return this.title;
-    }
-
-    public List<GemtextElement> getElements() {
-        return this.elements;
-    }
+public interface RedirectHandler {
+    boolean redirect(String destination, int attempt);
 }
