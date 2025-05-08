@@ -51,6 +51,11 @@ public class AddressBar extends JPanel {
         this.add(this.refreshButton);
 
         this.addressField = new JTextField();
+        Insets margin = this.addressField.getMargin();
+        this.addressField.setMargin(new Insets(margin.top, 16, margin.bottom, margin.right));
+        this.addressField.putClientProperty("TextComponent.arc", 999);
+        this.addressField.putClientProperty("JComponent.roundRect", true);
+        this.addressField.setPreferredSize(new Dimension(this.addressField.getPreferredSize().width, 36));
         this.addressField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {

@@ -45,7 +45,11 @@ public class Gui {
         JDialog.setDefaultLookAndFeelDecorated(true);
         FlatIntelliJLaf.setup();
 
-        this.registerFont();
+        this.registerRobotoFont("Regular");
+        this.registerRobotoFont("Bold");
+        this.registerRobotoFont("Italic");
+        this.registerRobotoFont("Light");
+        this.registerRobotoFont("Medium");
 
         this.tabbedPane = new JTabbedPane();
         this.tabbedPane.setPreferredSize(new Dimension(Gui.WINDOW_WIDTH, Gui.WINDOW_HEIGHT));
@@ -66,12 +70,9 @@ public class Gui {
         this.frame.setVisible(true);
     }
 
-    private void registerFont() {
+    private void registerRobotoFont(String file) {
         try {
-            Font font = Font.createFont(Font.TRUETYPE_FONT, Gui.class.getResourceAsStream("/assets/fonts/roboto/static/Roboto-Regular.ttf"));
-            System.out.println(font.getFontName());
-            System.out.println(font.getFamily());
-
+            Font font = Font.createFont(Font.TRUETYPE_FONT, Gui.class.getResourceAsStream("/assets/fonts/roboto/static/Roboto-" + file + ".ttf"));
             GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
             env.registerFont(font);
         } catch (Exception e) {

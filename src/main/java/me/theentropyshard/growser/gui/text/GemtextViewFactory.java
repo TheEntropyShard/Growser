@@ -27,6 +27,10 @@ public class GemtextViewFactory implements ViewFactory {
             return new PreformattedView(element);
         }
 
+        if (element.getAttributes().getAttribute("blockquote") != null) {
+            return new BlockquoteView(element);
+        }
+
         if (element.getAttributes().getAttribute("listItem") != null) {
             return new ListItemView(element);
         }

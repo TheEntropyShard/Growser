@@ -18,27 +18,13 @@
 
 package me.theentropyshard.growser.gui.text;
 
-import javax.swing.text.Element;
-import javax.swing.text.ParagraphView;
+import javax.swing.text.*;
 import java.awt.*;
 
-public class ListItemView extends ParagraphView {
-    public ListItemView(Element element) {
+public class BlockquoteView extends LabelView {
+    public BlockquoteView(Element element) {
         super(element);
     }
 
-    @Override
-    public void paint(Graphics g, Shape a) {
-        Graphics graphics = g.create();
 
-        Rectangle bounds = a.getBounds();
-        graphics.setColor(Color.BLACK);
-        int offset = 15;
-        int size = g.getFont().getSize() / 2 - 1;
-        graphics.fillOval(bounds.x + offset / 2, (bounds.y + size) - 1, size, size);
-
-        graphics.translate(offset, 0);
-
-        super.paint(g, a);
-    }
 }

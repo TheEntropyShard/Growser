@@ -1,5 +1,6 @@
 package me.theentropyshard.growser.gui.text;
 
+import me.theentropyshard.growser.gemini.text.GemtextParser;
 import me.theentropyshard.growser.gemini.text.document.*;
 
 import javax.swing.*;
@@ -53,6 +54,10 @@ public class GemtextDocument extends DefaultStyledDocument {
                     GemtextPreformattedElement preformatted = (GemtextPreformattedElement) element;
                     this.writePreformatted(preformatted.getText());
                     break;
+                case BLOCKQUOTE:
+                    GemtextBlockquoteElement blockquote = (GemtextBlockquoteElement) element;
+                    this.writeBlockquote(blockquote.getText());
+                    break;
                 case LIST_ITEM:
                     GemtextListItemElement listItem = (GemtextListItemElement) element;
                     this.writeListItem(listItem.getText());
@@ -92,12 +97,24 @@ public class GemtextDocument extends DefaultStyledDocument {
         this.writeText("\n" + text + "\n", preformattedAttrs);
     }
 
+    private void writeBlockquote(String text) throws BadLocationException {
+        SimpleAttributeSet paragraphAttrs = GemtextDocument.getBlockquoteParagraphAttrs();
+        this.setParagraphAttributes(this.position, text.length(), paragraphAttrs, false);
+        SimpleAttributeSet blockquoteAttrs = GemtextDocument.getBlockquoteAttrs();
+        blockquoteAttrs.addAttribute("blockquote", "value");
+        this.writeText(text, blockquoteAttrs);
+    }
+
     private void writeHeader(String text, int size) throws BadLocationException {
+/*
         if (size == 1) {
-            this.setParagraphAttributes(this.position, text.length(), this.centerAttrs, false);
+
         } else {
             this.setParagraphAttributes(this.position, text.length(), this.leftAttrs, false);
         }
+*/
+
+        this.setParagraphAttributes(this.position, text.length(), this.centerAttrs, false);
         this.writeText(text + "\n", GemtextDocument.getHeaderAttrs(size));
     }
 
@@ -158,15 +175,37 @@ public class GemtextDocument extends DefaultStyledDocument {
         return textAttrs;
     }
 
+    public static SimpleAttributeSet getBlockquoteAttrs() {
+        SimpleAttributeSet textAttrs = GemtextDocument.getTextAttrs();
+
+        StyleConstants.setFontFamily(textAttrs, "monospaced");
+        StyleConstants.setBackground(textAttrs, Color.cyan.darker());
+
+        return textAttrs;
+    }
+
     public static SimpleAttributeSet getParagraphAttrs() {
         SimpleAttributeSet res = new SimpleAttributeSet();
 
-        StyleConstants.setAlignment(res, 0);
+        StyleConstants.setAlignment(res, StyleConstants.ALIGN_JUSTIFIED);
         StyleConstants.setSpaceAbove(res, 0.4f);
         StyleConstants.setSpaceBelow(res, 0.4f);
         StyleConstants.setLeftIndent(res, 20.0f);
         StyleConstants.setRightIndent(res, 20.0f);
         StyleConstants.setLineSpacing(res, 0.4f);
+
+        return res;
+    }
+
+    public static SimpleAttributeSet getBlockquoteParagraphAttrs() {
+        SimpleAttributeSet res = new SimpleAttributeSet();
+
+        StyleConstants.setAlignment(res, StyleConstants.ALIGN_JUSTIFIED);
+        StyleConstants.setSpaceAbove(res, 0f);
+        StyleConstants.setSpaceBelow(res, 0f);
+        StyleConstants.setLeftIndent(res, 20.0f);
+        StyleConstants.setRightIndent(res, 20.0f);
+        StyleConstants.setLineSpacing(res, 0f);
 
         return res;
     }
