@@ -16,22 +16,25 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.growser;
+package me.theentropyshard.growser.gui;
 
-import org.apache.logging.log4j.LogManager;
+import javax.swing.text.StyledEditorKit;
+import javax.swing.text.ViewFactory;
 
-public class Main {
-    public static void main(String[] args) {
-        Args theArgs = Args.parse(args);
+public class GemtextEditorKit extends StyledEditorKit {
+    private final ViewFactory viewFactory;
 
-        System.setProperty("growser.logsDir", theArgs.getWorkDir().resolve("logs").toString());
+    public GemtextEditorKit() {
+        this.viewFactory = new GemtextViewFactory();
+    }
 
-        try {
-            new Growser(theArgs, args);
-        } catch (Throwable t) {
-            LogManager.getLogger(Main.class).fatal("Could not start Growser", t);
+    @Override
+    public ViewFactory getViewFactory() {
+        return this.viewFactory;
+    }
 
-            System.exit(1);
-        }
+    @Override
+    public String getContentType() {
+        return "text/gemini";
     }
 }

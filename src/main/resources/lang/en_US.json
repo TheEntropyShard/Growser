@@ -1,0 +1,10 @@
+{
+    "gui": {
+        "general": {
+            "yes": "Yes",
+            "no": "No",
+            "ok": "Ok",
+            "cancel": "Cancel"
+        }
+    }
+}

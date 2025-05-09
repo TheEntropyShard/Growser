@@ -16,22 +16,20 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.growser;
+package me.theentropyshard.growser.utils;
 
-import org.apache.logging.log4j.LogManager;
+import java.io.IOException;
 
-public class Main {
-    public static void main(String[] args) {
-        Args theArgs = Args.parse(args);
+public final class ResourceUtils {
+    public static byte[] readToByteArray(String path) throws IOException {
+        return StreamUtils.readToByteArray(ResourceUtils.class.getResourceAsStream(path));
+    }
 
-        System.setProperty("growser.logsDir", theArgs.getWorkDir().resolve("logs").toString());
+    public static String readToString(String path) throws IOException {
+        return StreamUtils.readToString(ResourceUtils.class.getResourceAsStream(path));
+    }
 
-        try {
-            new Growser(theArgs, args);
-        } catch (Throwable t) {
-            LogManager.getLogger(Main.class).fatal("Could not start Growser", t);
-
-            System.exit(1);
-        }
+    private ResourceUtils() {
+        throw new UnsupportedOperationException();
     }
 }

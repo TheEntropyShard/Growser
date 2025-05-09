@@ -16,22 +16,10 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.growser;
+package me.theentropyshard.growser.gui;
 
-import org.apache.logging.log4j.LogManager;
+public class Gui {
+    public Gui() {
 
-public class Main {
-    public static void main(String[] args) {
-        Args theArgs = Args.parse(args);
-
-        System.setProperty("growser.logsDir", theArgs.getWorkDir().resolve("logs").toString());
-
-        try {
-            new Growser(theArgs, args);
-        } catch (Throwable t) {
-            LogManager.getLogger(Main.class).fatal("Could not start Growser", t);
-
-            System.exit(1);
-        }
     }
 }
