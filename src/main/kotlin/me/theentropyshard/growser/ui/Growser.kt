@@ -76,7 +76,7 @@ fun Growser() {
 
     val navController = rememberNavController()
 
-    val state = remember(currentUrl) { TextFieldState(initialText = currentUrl) }
+    val state = remember(currentUrl) { TextFieldState(initialText = currentUrl?.toString() ?: "") }
 
     Scaffold(
         modifier = Modifier

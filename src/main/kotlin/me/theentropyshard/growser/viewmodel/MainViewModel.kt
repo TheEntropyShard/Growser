@@ -41,7 +41,7 @@ class MainViewModel : ViewModel() {
     private var _pageState = MutableStateFlow(PageState.NotReady)
     val pageState = _pageState.asStateFlow()
 
-    private var _currentUrl = MutableStateFlow("")
+    private var _currentUrl = MutableStateFlow<URI?>(null)
     val currentUrl = _currentUrl.asStateFlow()
 
     private var _document = MutableStateFlow(GemtextPage("", listOf()))
@@ -61,7 +61,7 @@ class MainViewModel : ViewModel() {
     private val client = GeminiClient()
 
     fun loadPreviousPage() {
-        this.loadPage(history.pop(this.currentUrl.value), false)
+        this.loadPage(history.pop(this.currentUrl.value!!.toString()), false)
     }
 
     fun loadPage(url: String, addToHistory: Boolean = true) {
@@ -79,7 +79,7 @@ class MainViewModel : ViewModel() {
 
         if (addToHistory) history.visit(theUrl)
 
-        _currentUrl.value = theUrl
+        _currentUrl.value = URI.create(theUrl)
 
         _pageState.value = PageState.Loading
 
@@ -109,18 +109,10 @@ class MainViewModel : ViewModel() {
     }
 
     fun loadRelativePage(url: String) {
-        var theUrl = url
-
-        theUrl = if (_currentUrl.value.endsWith("/") && url.startsWith("/")) {
-            "${_currentUrl.value}${url.drop(1)}"
-        } else {
-            "${_currentUrl.value}$theUrl"
-        }
-
-        this.loadPage(theUrl)
+        this.loadPage(this._currentUrl.value!!.resolve(url).toString())
     }
 
     fun refresh() {
-        this.loadPage(_currentUrl.value, false)
+        this.loadPage(_currentUrl.value!!.toString(), false)
     }
 }
