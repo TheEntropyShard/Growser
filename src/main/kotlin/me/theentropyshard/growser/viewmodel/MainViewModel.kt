@@ -88,18 +88,6 @@ class MainViewModel : ViewModel() {
                 client.send(GeminiRequest(theUrl)).use { response ->
                     _exception.value = ""
 
-                    if (response.statusCode.toString().startsWith("3")) {
-                        var redirectUrl = response.metaInfo
-
-                        if (!redirectUrl.startsWith("gemini://")) {
-                            redirectUrl = "gemini://${URI(url).host}$redirectUrl"
-                        }
-
-                        loadPage(redirectUrl)
-
-                        return@launch
-                    }
-
                     _statusCode.value = response.statusCode
                     _statusLine.value = response.metaInfo
 
