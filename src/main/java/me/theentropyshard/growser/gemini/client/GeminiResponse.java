@@ -18,7 +18,7 @@
 
 package me.theentropyshard.growser.gemini.client;
 
-import me.theentropyshard.growser.utils.StreamUtils;
+import me.theentropyshard.growser.gemini.StreamUtils;
 
 import java.io.Closeable;
 import java.io.IOException;

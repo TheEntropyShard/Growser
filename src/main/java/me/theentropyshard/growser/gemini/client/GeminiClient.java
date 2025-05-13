@@ -18,16 +18,12 @@
 
 package me.theentropyshard.growser.gemini.client;
 
-import me.theentropyshard.growser.utils.StreamUtils;
+import me.theentropyshard.growser.gemini.StreamUtils;
 
 import javax.net.ssl.*;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 import java.security.SecureRandom;
 import java.util.Collections;
 
@@ -59,6 +55,7 @@ public class GeminiClient {
         int secondCodeDigit = ((char) inputStream.read()) - '0';
         int code = firstCodeDigit * 10 + secondCodeDigit;
 
+        //noinspection ResultOfMethodCallIgnored
         inputStream.read(); // Skip the space
 
         byte[] crlf = "\r\n".getBytes(StandardCharsets.US_ASCII);

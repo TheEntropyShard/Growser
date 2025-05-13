@@ -20,6 +20,6 @@ package me.theentropyshard.growser.gemini.gemtext.document;
 
 public class GemtextH2Element extends GemtextTextElement {
     public GemtextH2Element(String text) {
-        super(GemtextElementType.HEADING_L2, text);
+        super(GemtextElementType.H2, text);
     }
 }

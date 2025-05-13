@@ -61,7 +61,7 @@ public class GemtextParser {
                     preContents = new ArrayList<>();
                 } else {
                     String caption = line.substring(3);
-                    preCaption = caption.length() == 0 ? null : caption;
+                    preCaption = caption.isEmpty() ? null : caption;
                 }
                 inPreBlock = !inPreBlock;
             } else if (inPreBlock) {
