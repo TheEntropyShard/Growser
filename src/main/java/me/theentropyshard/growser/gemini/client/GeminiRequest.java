@@ -26,6 +26,8 @@ import java.nio.charset.StandardCharsets;
 public class GeminiRequest {
     public static final int DEFAULT_PORT = 1965;
 
+    private final URI rawUri;
+
     private final String uri;
     private final String host;
     private final int port;
@@ -43,6 +45,8 @@ public class GeminiRequest {
             throw new IllegalArgumentException("User info must not be present in Gemini URI");
         }
 
+        this.rawUri = uri;
+
         this.uri = uri.toASCIIString();
         this.host = uri.getHost();
         this.port = uri.getPort() == -1 ? GeminiRequest.DEFAULT_PORT : uri.getPort();
@@ -51,6 +55,10 @@ public class GeminiRequest {
     public void writeTo(OutputStream outputStream) throws IOException {
         outputStream.write((this.uri + "\r\n").getBytes(StandardCharsets.UTF_8));
         outputStream.flush();
+    }
+
+    public URI getRawUri() {
+        return this.rawUri;
     }
 
     public String getHost() {
