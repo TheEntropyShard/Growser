@@ -22,6 +22,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -65,10 +66,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onPlaced
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-
-val GrowserTopBarHeight = 44.dp
 
 enum class MenuButton {
     NewTab,
@@ -110,7 +110,6 @@ fun GrowserTopBar(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            //.height(GrowserTopBarHeight)
             .onPlaced {
                 parentWidth = it.size.width
             }
@@ -126,7 +125,7 @@ fun GrowserTopBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 6.dp, top = 6.dp),
+                .padding(6.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             TopBarIconButton(
@@ -136,12 +135,16 @@ fun GrowserTopBar(
                 onClick = onBackClick
             )
 
+            Spacer(modifier = Modifier.width(6.dp))
+
             TopBarIconButton(
                 imageVector = Icons.AutoMirrored.Outlined.ArrowForward,
                 contentDescription = "Click to go forward",
                 enabled = canClickForward,
                 onClick = onForwardClick
             )
+
+            Spacer(modifier = Modifier.width(6.dp))
 
             TopBarIconButton(
                 imageVector = Icons.Outlined.Refresh,
@@ -150,6 +153,8 @@ fun GrowserTopBar(
                 onClick = onRefreshClick
             )
 
+            Spacer(modifier = Modifier.width(6.dp))
+
             SearchField(
                 modifier = Modifier.weight(1f),
                 hint = "Enter Gemini address",
@@ -157,10 +162,13 @@ fun GrowserTopBar(
                 onSearch = onSearch
             )
 
+            Spacer(modifier = Modifier.width(6.dp))
+
             TopBarIconButton(
                 imageVector = Icons.Outlined.MoreVert,
                 contentDescription = "Click to open menu",
                 enabled = true,
+                iconSize = 20.dp,
                 onClick = { menuShown = true }
             )
         }
@@ -297,15 +305,17 @@ private fun TopBarIconButton(
     imageVector: ImageVector,
     contentDescription: String = "",
     enabled: Boolean = true,
+    iconButtonSize: Dp = 32.dp,
+    iconSize: Dp = 18.dp,
     onClick: () -> Unit
 ) {
     IconButton(
-        modifier = Modifier.size(32.dp),
+        modifier = Modifier.size(iconButtonSize),
         onClick = onClick,
         enabled = enabled
     ) {
         Icon(
-            modifier = Modifier.size(18.dp),
+            modifier = Modifier.size(iconSize),
             imageVector = imageVector,
             contentDescription = contentDescription
         )
