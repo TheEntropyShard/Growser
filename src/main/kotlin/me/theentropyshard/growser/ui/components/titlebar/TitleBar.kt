@@ -48,7 +48,10 @@ fun TitleBar(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .padding(start = 4.dp)
+                .weight(1f),
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Tab(
                 icon = {
@@ -59,6 +62,17 @@ fun TitleBar(
                     )
                 },
                 title = "Hello"
+            )
+
+            Tab(
+                icon = {
+                    Icon(
+                        modifier = Modifier.size(16.dp),
+                        imageVector = Icons.Outlined.Language,
+                        contentDescription = ""
+                    )
+                },
+                title = "Project Gemini"
             )
         }
 

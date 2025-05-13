@@ -30,6 +30,7 @@ import me.theentropyshard.growser.ui.Growser
 import me.theentropyshard.growser.ui.components.titlebar.TitleBar
 import me.theentropyshard.growser.ui.theme.GrowserTheme
 import me.theentropyshard.growser.ui.windows.CustomWindowProcedure
+import java.awt.Dimension
 import kotlin.system.exitProcess
 
 fun main() = application {
@@ -41,6 +42,8 @@ fun main() = application {
         undecorated = true,
         onCloseRequest = ::exitApplication
     ) {
+        window.minimumSize = Dimension(620, 90)
+
         val onMinimizeClick: () -> Unit = if (System.getProperty("os.name").lowercase().contains("windows")) {
             val windowHandle = remember(this.window) {
                 val windowPointer = this.window.windowHandle.let(::Pointer)

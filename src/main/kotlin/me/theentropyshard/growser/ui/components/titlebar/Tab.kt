@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -22,12 +23,10 @@ fun Tab(
 ) {
     val surfaceColor = MaterialTheme.colorScheme.surface
 
-    Box(
-        modifier = modifier.size(250.dp, 42.dp)
-    ) {
+    Box(modifier = modifier.size(250.dp, 42.dp)) {
         Box(
             modifier = Modifier
-                .padding(4.dp)
+                .padding(vertical = 4.dp)
                 .clip(RoundedCornerShape(6.dp))
                 .background(surfaceColor)
                 .fillMaxSize()
@@ -45,11 +44,13 @@ fun Tab(
                 Text(
                     modifier = Modifier
                         .graphicsLayer {
-                            translationY = -1.52f.dp.toPx()
+                            translationY = -0.5f
                         }
                         .weight(2f),
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
                     text = title,
-                    fontSize = 14.sp
+                    fontSize = 12.sp
                 )
 
                 IconButton(
