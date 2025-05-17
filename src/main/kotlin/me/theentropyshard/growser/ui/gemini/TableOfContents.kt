@@ -19,18 +19,28 @@
 package me.theentropyshard.growser.ui.gemini
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Indication
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -76,19 +86,15 @@ fun TableOfContents(
                         else -> FontWeight.Normal
                     }
 
-                    Text(
-                        modifier = Modifier
-                            .padding(start = padding)
-                            .clickable {
-                                scope.launch {
-                                    scrollState.animateScrollTo(
-                                        offsets[elements.indexOf(element)] ?: 0
-                                    )
-                                }
-                            },
+                    TableOfContentsItem(
+                        modifier = Modifier.padding(start = padding),
                         text = (element as GemtextTextElement).text,
                         fontWeight = fontWeight
-                    )
+                    ) {
+                        scope.launch {
+                            scrollState.animateScrollTo(offsets[elements.indexOf(element)] ?: 0)
+                        }
+                    }
                 }
             }
         }
@@ -102,14 +108,40 @@ private fun TableOfContentsHeader(
     onClick: () -> Unit
 ) {
     Row(
-        modifier = Modifier.clickable { onClick() }.then(modifier)
+        modifier = Modifier
+            .clip(RoundedCornerShape(8.dp))
+            .pointerHoverIcon(icon = PointerIcon.Hand, overrideDescendants = true)
+            .clickable { onClick() }.then(modifier)
     ) {
         Icon(
-            modifier = Modifier.graphicsLayer { rotationZ = if (expanded) 90f else 0f },
+            modifier = Modifier
+                .graphicsLayer { rotationZ = if (expanded) 90f else 0f },
             imageVector = Icons.Filled.ChevronRight,
             contentDescription = ""
         )
 
         Text(text = "Table Of Contents")
     }
+}
+
+@Composable
+fun TableOfContentsItem(
+    modifier: Modifier = Modifier,
+    text: String,
+    fontWeight: FontWeight,
+    onClick: () -> Unit
+) {
+    Text(
+        modifier = modifier
+            .clip(RoundedCornerShape(8.dp))
+            .pointerHoverIcon(icon = PointerIcon.Hand, overrideDescendants = true)
+            .clickable(
+                onClick = onClick,
+                indication = ripple(bounded = true),
+                interactionSource = remember { MutableInteractionSource() }
+            )
+            .padding(6.dp),
+        text = text,
+        fontWeight = fontWeight
+    )
 }
